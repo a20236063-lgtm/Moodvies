@@ -32,4 +32,3 @@ with col2:
     if st.button("No quiero más"):
         st.success("🍿 Me alegra que hayas encontrado tu película ideal ✨")
         st.session_state[key_lista] = []
-        st.experimental
