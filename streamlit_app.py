@@ -45,6 +45,5 @@ if st.session_state.mostrar:
         if no_mas:
             st.success("¡Me alegra que hayas encontrado tu película ideal! ✨")
             st.session_state.mostrar = False
-
     else:
         st.warning("❤️ Ya no hay más recomendaciones para esta emoción.")
