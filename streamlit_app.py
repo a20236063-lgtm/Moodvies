@@ -24,7 +24,6 @@ else:
     with col1:
         if st.button("Quiero más recomendaciones"):
             st.session_state[key_lista] = lista_restante[3:]
-            st.experimental_rerun()
     with col2:
         if st.button("No quiero más"):
             st.success("🍿 Me alegra que hayas encontrado tu película ideal ✨")
