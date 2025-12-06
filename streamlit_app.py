@@ -2,8 +2,10 @@ import streamlit as st
 import pandas as pd
 import random
 
-# Título
 st.title("🎬 Recomendador de Películas según tu emoción")
+
+# Cargar Excel
+peliculas = pd.read_excel('pensamiento (2).xlsx')
 
 # Emociones
 emociones = [
@@ -11,29 +13,36 @@ emociones = [
     "Nostálgia", "Romance", "Intriga", "Ternura"
 ]
 
-# Cargar Excel
-peliculas = pd.read_excel('pensamiento (2).xlsx')
+# Seleccionar emoción
+emocion = st.selectbox("¿Cómo te sientes hoy?", emociones)
 
-# Selección de emoción
-emocion_seleccionada = st.selectbox("¿Cómo te sientes hoy?", emociones)
+# Reiniciar estado si cambia la emoción
+if "emocion_anterior" not in st.session_state:
+    st.session_state.emocion_anterior = None
 
-if emocion_seleccionada:
-    lista_peliculas = peliculas[peliculas["EMOCIÓN"] == emocion_seleccionada]["PELÍCULAS"].tolist()
-    random.shuffle(lista_peliculas)
+if st.session_state.emocion_anterior != emocion:
+    st.session_state.index = 0
+    st.session_state.emocion_anterior = emocion
 
-    st.subheader(f"Películas para cuando sientes: {emocion_seleccionada}")
+# Filtrar las películas
+lista = peliculas[peliculas["EMOCIÓN"] == emocion]["PELÍCULAS"].tolist()
+random.shuffle(lista)
 
-    # Mostrar 3 cada vez
-    if "index" not in st.session_state:
-        st.session_state.index = 0
+st.subheader(f"Películas para cuando sientes: {emocion}")
 
-    if st.button("Mostrar recomendaciones"):
-        fin = st.session_state.index + 3
-        subset = lista_peliculas[st.session_state.index:fin]
+# Mostrar recomendaciones de 3 en 3
+if "index" not in st.session_state:
+    st.session_state.index = 0
 
-        if subset:
-            for peli in subset:
-                st.write("🍿", peli)
-            st.session_state.index = fin
-        else:
-            st.write("❤️ ¡Ya no hay más recomendaciones!")
+if st.button("Mostrar recomendaciones"):
+    inicio = st.session_state.index
+    fin = inicio + 3
+    subset = lista[inicio:fin]
+
+    if subset:
+        for peli in subset:
+            st.write("🍿", peli)
+        st.session_state.index = fin
+    else:
+        st.success("❤️ ¡Ya no hay más recomendaciones para esta emoción!")
+
