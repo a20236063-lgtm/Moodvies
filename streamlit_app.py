@@ -20,7 +20,7 @@ if emocion not in st.session_state.listas:
     shuffled = lista_raw.copy()
     random.shuffle(shuffled)
     st.session_state.listas[emocion] = shuffled
-    st.session_state.progreso[emocion] = 0  
+    st.session_state.progreso[emocion] = 0
 st.subheader(f"Películas para cuando sientes: {emocion}")
 if st.button("Mostrar recomendaciones", key=f"mostrar_{emocion}"):
     st.session_state.mostrar = True
@@ -47,3 +47,5 @@ if st.session_state.mostrar:
             st.session_state.mostrar = False
     else:
         st.warning("❤️ Ya no hay más recomendaciones para esta emoción.")
+        st.session_state.progreso[emocion] = 0
+        st.session_state.mostrar = False
