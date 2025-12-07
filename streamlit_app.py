@@ -1,7 +1,7 @@
 import streamlit as st
 import pandas as pd
 import random
-st.title("🎬 Recomendador de Películas por Emoción")
+st.title("🎬 Moodvies")
 @st.cache_data
 def cargar_datos():
     return pd.read_excel("pensamiento (2).xlsx")
